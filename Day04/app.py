@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 def calculate_qpcr():
     # קריאת הקובץ - רק העמודות הרלוונטיות
-    df = pd.read_excel("EXP.30 Results.xlsx", usecols=['Sample Name', 'Target Name', 'Ct Mean'])
+    df = pd.read_excel(r"C:\Users\3maya\Documents\WIS\Python Course\Assignments\Day04\EXP.30 Results.xlsx", usecols=['Sample Name', 'Target Name', 'Ct Mean'])
     
     # סידור הנתונים כך שגן המטרה וגן הרפרנס יהיו באותה שורה עבור כל דגימה
     pivot_df = df.pivot(index='Sample Name', columns='Target Name', values='Ct Mean').reset_index()
