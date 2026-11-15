@@ -3,20 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>qPCR Analysis Results</title>
+    <title>Interactive qPCR Analysis</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 30px; }
-        h1 { color: #333; text-align: center; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 30px; text-align: center; }
+        h1 { color: #333; }
+        .form-container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; margin-bottom: 20px; }
+        form { margin: 10px 0; }
         table { width: 80%; margin: 0 auto; border-collapse: collapse; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         th, td { padding: 12px 15px; border: 1px solid #ddd; text-align: center; }
         th { background-color: #2c3e50; color: white; }
         tr:nth-child(even) { background-color: #f9f9f9; }
-        tr:hover { background-color: #f1f1f1; }
         .highlight { font-weight: bold; color: #e74c3c; }
+        .error { color: red; font-weight: bold; margin-bottom: 20px; }
+        input[type="submit"], button { padding: 10px 15px; cursor: pointer; background-color: #3498db; color: white; border: none; border-radius: 4px; }
+        input[type="submit"]:hover, button:hover { background-color: #2980b9; }
+        .example-btn { background-color: #2ecc71; }
+        .example-btn:hover { background-color: #27ae60; }
     </style>
 </head>
 <body>
-    <h1>qPCR Fold Change Results</h1>
+    <h1>Interactive qPCR Analysis (2^-ddCt)</h1>
+
+    <div class="form-container">
+        <!-- Form for uploading a new file -->
+        <form method="POST" enctype="multipart/form-data">
+            <label for="file"><strong>Upload your Excel file:</strong></label><br><br>
+            <input type="file" name="file" accept=".xlsx, .xls" required>
+            <input type="hidden" name="upload_file" value="1">
+            <input type="submit" value="Calculate">
+        </form>
+
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #eee;">
+
+        <!-- Form for loading the example file -->
+        <form method="POST">
+            <input type="hidden" name="load_example" value="1">
+            <input type="submit" class="example-btn" value="Load Example Data (EXP.30)">
+        </form>
+    </div>
+
+    <!-- Display error message if any -->
+    {% if error_message %}
+        <div class="error">{{ error_message }}</div>
+    {% endif %}
+
+    <!-- Display results table only if results exist -->
+    {% if results %}
     <table>
         <thead>
             <tr>
@@ -29,7 +61,6 @@
             </tr>
         </thead>
         <tbody>
-            <!-- כאן ה-HTML רץ על כל שורה מהפייתון ומדפיס אותה לטבלה -->
             {% for row in results %}
             <tr>
                 <td>{{ row['Sample Name'] }}</td>
@@ -42,5 +73,6 @@
             {% endfor %}
         </tbody>
     </table>
+    {% endif %}
 </body>
 </html>
