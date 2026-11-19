@@ -15,3 +15,10 @@ In this assignment, I took the qPCR Fold Change calculation from Day 03 and conv
 
 **Interactive Upgrade Prompt:**
 "Make the Flask app interactive. I want any user to be able to upload their own Excel file with their raw data, and the site will calculate the 2^-ddCt for them. In addition, add a button to load an example file (EXP.30 Results.xlsx) so they can test it without uploading."
+
+## Day 05 Assignment - Unit Testing Business Logic
+
+To verify the reliability of the qPCR calculation logic independently from the Flask web interface, I added automated unit tests using `pytest` in `test_app.py`:
+1. **Calculation Accuracy (`test_calculate_qpcr_valid_data`):** Tests `calculate_qpcr_from_df` with controlled Ct values to verify exact `dCt`, `ddCt`, and `2^-ddCt` Fold Change outputs for baseline (`1.0`), downregulation (`0.5`), and upregulation (`2.0`).
+2. **Missing Column Handling (`test_calculate_qpcr_missing_column`):** Verifies that missing required columns return a graceful error message instead of crashing.
+3. **Missing Gene Handling (`test_calculate_qpcr_missing_target_gene`):** Ensures missing target/reference gene data is caught properly.
